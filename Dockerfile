@@ -40,4 +40,5 @@ RUN git config --global user.email "tadgh@tadghwagstaff.com"
 RUN git config --global user.name "Tadgh"
 RUN git config --global init.defaultBranch "main"
 
+WORKDIR /home/${HOST_USER}
 ENTRYPOINT ["/bin/bash"]
