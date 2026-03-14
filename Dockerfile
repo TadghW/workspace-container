@@ -30,7 +30,21 @@ RUN adduser -D -s /bin/bash -u ${UID} -g root ${HOST_USER}
 # Very damgerous don't do outside of a silly work container
 RUN echo "${HOST_USER} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${HOST_USER} && chmod 0440 /etc/sudoers.d/${HOST_USER}
 
+RUN ssh-keygen -A
+RUN mkdir -p /run/sshd
+RUN chmod 755 /run/sshd
+RUN printf '%s\n' \
+  'PermitRootLogin no' \
+  'PasswordAuthentication no' \
+  'UsePAM no' \
+  >> /etc/ssh/sshd_config
+
 USER ${HOST_USER}
+
+# TODO: Figure out setting the container up for some kind of auth in a way that isn't terrible
+RUN mkdir -p /home/tadgh/.ssh
+RUN chmod 700 /home/tadgh/.ssh
+RUN chown -R tadgh:root /home/tadgh/.ssh
 
 RUN curl -s https://ohmyposh.dev/install.sh | bash -s
 
@@ -46,5 +60,10 @@ RUN git config --global user.email "tadgh@tadghwagstaff.com"
 RUN git config --global user.name "Tadgh"
 RUN git config --global init.defaultBranch "main"
 
+USER root
+
 WORKDIR /home/${HOST_USER}
-ENTRYPOINT ["/bin/bash"]
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D", "-e"]
