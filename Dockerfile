@@ -13,7 +13,7 @@ RUN apk add --no-cache \
   sudo \
   tmux \
   fzf \
-  ripgrep\
+  ripgrep \
   curl \
   wget \
   openssh \
