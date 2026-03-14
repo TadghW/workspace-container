@@ -3,9 +3,12 @@ FROM alpine:3.23.3
 ARG UID=1000
 ARG GID=1000
 ARG HOST_USER=tadgh
+ENV LANG=C.UTF-8
+ENV LC_CTYPE=C.UTF-8
 
 RUN apk add --no-cache \
   bash \
+  musl-locales musl-locales-lang \
   neovim \
   sudo \
   tmux \
@@ -17,6 +20,8 @@ RUN apk add --no-cache \
   git \
   go \
   rust \
+  nodejs \
+  npm \
   podman \
   python3 
 
@@ -26,8 +31,6 @@ RUN adduser -D -s /bin/bash -u ${UID} -g root ${HOST_USER}
 RUN echo "${HOST_USER} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${HOST_USER} && chmod 0440 /etc/sudoers.d/${HOST_USER}
 
 USER ${HOST_USER}
-
-RUN ssh-keygen -f ~/.ssh/id_ed25519 -N '' -q
 
 RUN mkdir ~/dotfiles ~/.config
 COPY --chown=${HOST_USER}:root ./dotfiles /home/${HOST_USER}/dotfiles
