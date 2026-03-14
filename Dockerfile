@@ -32,11 +32,15 @@ RUN echo "${HOST_USER} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${HOST_USER} &&
 
 USER ${HOST_USER}
 
+RUN curl -s https://ohmyposh.dev/install.sh | bash -s
+
 RUN mkdir ~/dotfiles ~/.config
 COPY --chown=${HOST_USER}:root ./dotfiles /home/${HOST_USER}/dotfiles
 
+RUN cp ~/dotfiles/.bashrc-auto-tmux ~/.bashrc
+RUN source ~/.bashrc 
+
 RUN cp -r ~/dotfiles/nvim ~/dotfiles/tmux ~/.config
-RUN cp ~/dotfiles/.bashrc ~/.bashrc
 RUN git clone --quiet -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
 
 RUN git config --global user.email "tadgh@tadghwagstaff.com"
