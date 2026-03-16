@@ -18,4 +18,4 @@ for key in id_ed25519 id_rsa; do
   fi
 done
 
-sudo podman run -d --name workspace-container "${mounts[@]}" --publish 127.0.0.1:22222:22/tcp --hostname workspace --replace workspace-image
+sudo podman run -d --name workspace-container "${mounts[@]}" --publish 192.168.0.6:22222:22/tcp --hostname workspace --replace workspace-image
