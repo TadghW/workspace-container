@@ -1,6 +1,6 @@
 # My silly little workspace container
 
-Builds a container with the utilities, interpreters, compilers, and package managers I work with and installs my shell, tmux, and neovim configs. Exposes container to the network over ssh with key auth so I can share one workspace across multiple devices, pre-authorizes the keys in `authorized_keys` for declarative auth control.
+Builds a container with the utilities, interpreters, compilers, and package managers I usually work with and installs my shell, tmux, and neovim configs. Exposes container to the network over ssh with key auth so I can share one workspace across multiple devices. Pre-authorizes the keys in `authorized_keys` for declarative access control.
 
 ## Notes:
 - `start-workspace.sh` and `refresh-workspace.sh` forward port 2222 on your host to 22 on the container so you can skip attaching
@@ -10,9 +10,11 @@ Builds a container with the utilities, interpreters, compilers, and package mana
 
 ## Customise for yourself!
 - `Dockerfile` exposes the arguments: `UID`, `GID`, `USER`, `GROUP`, `USER_GIT_EMAIL`, `USER_GIT_NAME`, `USER_GIT_DEFAULT_BRANCH`
+- Make sure you have all of the packages you want on the apk install list in at the top of the `Dockerfile`
 - Replace my `dotfiles` submodule with your own dotfiles
 - Remove the `ohmyposh` and `catppuccin-tmux` install lines (unless you want them)
 - Replace my `.bashrc` and `.bash_profile` installs with whatever shell you prefer
+- Replace my `authorized_keys` file with your own list of trusted devices
 
 ## To-do:
 - Arm64 version for apple silicon
