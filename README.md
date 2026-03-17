@@ -15,7 +15,7 @@
 
 This environment lives on my homeserver and is used as a single workspace that can be accessed by my household's many clients. It offers a declarative, atomic environment that unites each of my devices into one tmux session and one set of git worktree states. 
 
-## To deploy
+## Deploy
 
 ### Requirements
 
@@ -36,12 +36,6 @@ On your intended host:
 6.  Replace the network address in `start-workspace.sh` and `refresh-workspace.sh` with the address you intend to use
 7.  Run `build-workspace-image.sh` and `start-workspace.sh` - (or one-shot it with `refresh-workspace.sh`!)
 
-## Notes
-- `sshd` is the container entrypoint and `start-workspace.sh` and `refresh-workspace.sh` assume you want port forwarding for easy access - but you can attach with `attach-to-workspace.sh` if you want to run locally
-- `sshd` is run with flags `-D -e` and will pipe logs to stderr - if you run into issues accessing the workspace over SSH check the logs from the host with `sudo podman logs workspace-container`
-- `start-workspace.sh` and `refresh-workspace.sh` rw mount the host's ~/projects folder because that's where I expect to work, that's not a magic folder just my personal convention
-- There's a loop in `start-workspace.sh` and `refresh-workspace.sh` that looks for id_rsa and id_ed25519 keys on the host to ro mount to the container. If you have another key type you want mounted add it to line 8 (`for key in id_ed25519... rsa; do`).
-
 ## Customise!
 
 To customise the workspace:
@@ -52,11 +46,11 @@ To customise the workspace:
 - Remove the `ohmyposh` and `catppuccin-tmux` install lines (unless you want them)
 - Replace my `.bashrc` and `.bash_profile` installs with whatever shell you prefer
 
-## Using my configuration
+## The Default Configuration
 
-If you want to use my configuration:
+If you want to use the default configuration (my config):
 
-- You'll be launched automatically into `tmux` (behaviour configured in `.bashrc` which is loaded on login by `.bash_profile`):
+- You'll be launched automatically into a `tmux` session when you log in. This behaviour is configured in `dotfiles/.bashrc-auto-tmux`, which is renamed to `.bashrc` and sourced by `.bash_profile` when you log in to the container. To use `tmux`:
   1. Prefix is `Ctrl + A`
   2. `Prefix + -` for vertical split `Prefix + |` for horizontal. 
   3. `Prefix + Arrow keys` to resize a pane
@@ -76,10 +70,16 @@ If you want to use my configuration:
   5. `Leader + fs` to search context for strings
   6. `Leader + ff` to search context for files.
   7. Otherwise, stock navigation
-- For `nvim` and `ohmyposh` (my shell prompt fancy-ifier) to render properly your terminal emulator needs to use an icon-patched font - I recommend looking through through nerd-fonts to find one you like. I'm a big fan of `JetbrainsMono`
-- Remember to find and apply a theme on your terminal emulator for maximum eye-comfort
-- I recommend (Rio)[https://rioterm.com/] - it's very cross-platform and easy to configure
+- I recommend using [Rio](https://rioterm.com/) as your terminal emulator - it's very cross-platform and easy to configure. You can see my Rio config in `dotfiles/rio/`.
+- For `nvim` and `ohmyposh` (my shell prompt fancy-ifier) to render properly you'll need to configure your terminal emulator to use an font that has been patched with many nerdy icons - I recommend looking through through nerd-fonts to find one you like. I like `JetbrainsMono`.
+- Remember to find and apply a theme to your terminal emulator for maximum eye-comfort :)
 - I have no alias other than the one I use to connect to the workspace which is `workspace` - avoid using this from within the workspace as it will nest.
+
+## Notes
+- `sshd` is the container entrypoint and `start-workspace.sh` and `refresh-workspace.sh` assume you want port forwarding for easy access - but you can attach with `attach-to-workspace.sh` if you want to run locally
+- `sshd` is run with flags `-D -e` and will pipe logs to stderr - if you run into issues accessing the workspace over SSH check the logs from the host with `sudo podman logs workspace-container`
+- `start-workspace.sh` and `refresh-workspace.sh` rw mount the host's ~/projects folder because that's where I expect to work, that's not a magic folder just my personal convention
+- There's a loop in `start-workspace.sh` and `refresh-workspace.sh` that looks for id_rsa and id_ed25519 keys on the host to ro mount to the container. If you have another key type you want mounted add it to line 8 (`for key in id_ed25519... rsa; do`).
 
 ## To-do:
 - Workspace currently builds its own SSH host keys at build time. This sucks: each rebuild will change the server identity which trips SSH host key warnings on clients. You can reset the expected host key by clearing your `known_hosts` entry for that host, but a better approach would be the programmatic creation of dedicated persistent host key sets for the container when the user first runs `start-workspace.sh` and `refresh-workspace.sh` and mounting those host keys to the container.
