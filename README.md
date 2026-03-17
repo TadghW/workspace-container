@@ -52,7 +52,7 @@ To customise the workspace:
 - Remove the `ohmyposh` and `catppuccin-tmux` install lines (unless you want them)
 - Replace my `.bashrc` and `.bash_profile` installs with whatever shell you prefer
 
-## Using my setup
+## Using my configuration
 
 If you want to use my configuration:
 
@@ -76,7 +76,7 @@ If you want to use my configuration:
   5. `Leader + fs` to search context for strings
   6. `Leader + ff` to search context for files.
   7. Otherwise, stock navigation
-- For `nvim` and `ohmyposh` (my shell prompt fancy-ifier) to render properly you need your terminal emulator to use a font patched with a large icon set - I recommend nerd-fonts, and love the JetbrainMono nerd font :)
+- For `nvim` and `ohmyposh` (my shell prompt fancy-ifier) to render properly your terminal emulator needs to use an icon-patched font - I recommend looking through through nerd-fonts to find one you like. I'm a big fan of `JetbrainsMono`
 - Remember to find and apply a theme on your terminal emulator for maximum eye-comfort
 - I recommend (Rio)[https://rioterm.com/] - it's very cross-platform and easy to configure
 - I have no alias other than the one I use to connect to the workspace which is `workspace` - avoid using this from within the workspace as it will nest.
