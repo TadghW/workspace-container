@@ -22,7 +22,7 @@ This environment lives on my homeserver and is used as a single workspace that c
 To deploy the unified workspace you will need a relatively modern x86 Linux host with:
  - Sudo
  - Podman
- - Static network address (_I recommend a DHCP entry, NetBIOS name, or local DNS entry - avoid exposing this to the internet as it mounts the host's private key_)
+ - Static network address (_I recommend a DHCP entry, NetBIOS name, or local DNS entry - avoid exposing this to the internet as it mounts its host's user's private key_)
 
 ### Steps
 
@@ -51,9 +51,30 @@ To customise the workspace:
 - Replace my `dotfiles` submodule with your own dotfiles
 - Remove the `ohmyposh` and `catppuccin-tmux` install lines (unless you want them)
 - Replace my `.bashrc` and `.bash_profile` installs with whatever shell you prefer
-- Replace my `authorized_keys` file with your own list of trusted devices
+
+## Using my setup
+
+If you want to use my configuration:
+
+- You'll be launched automatically into `tmux` (behaviour configured in `.bashrc` which is loaded on login by `.bash_profile`):
+  1. Prefix is `Ctrl + A`
+  2. `Prefix + -` for vertical split `Prefix + |` for horizontal. 
+  3. `Prefix + Arrow keys` to resize a pane
+  4. `Prefix + ` `h`, `j`, `k`, and `l` for navigation.
+  5. `Prefix + r` reloads the config.
+- I use nvim with `lazy-nvim`, `Mason`, `telescope`, `neotree`, and `alpha-nvim`:
+  1. Leader is `space`
+  2. `Leader + e` to open neotree
+  3. `Leader + b` to open neotree on open buffers
+  4. `Leader + tab` to swap between windows
+  5. `Leader + fs` to search context for strings
+  6. `Leader + ff` to search context for files.
+  7. Otherwise, stock navigation
+- For nvim to render properly you need your terminal emulator to use a font patched with a large icon set - I recommend nerd-fonts, and love the JetbrainMono nerd font :)
+- Remember to find and apply a theme on your terminal emulator for maximum eye-comfort
+- I have no alias other than the one I use to connect to the workspace which is `workspace` - avoid using this from within the workspace as it will nest.
 
 ## To-do:
-- It would be painless and fruitful to expand the list of key types assembled in `start-workspace.sh` and `refresh-workspace.sh`
 - Workspace currently builds its own SSH host keys at build time. This sucks: each rebuild will change the server identity which trips SSH host key warnings on clients. You can reset the expected host key by clearing your `known_hosts` entry for that host, but a better approach would be the programmatic creation of dedicated persistent host key sets for the container when the user first runs `start-workspace.sh` and `refresh-workspace.sh` and mounting those host keys to the container.
 - Arm64 version for Apple Silicon
+- Might as well expand the list of key types in `start-workspace.sh` and `refresh-workspace.sh` 
