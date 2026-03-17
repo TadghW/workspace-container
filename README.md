@@ -50,6 +50,9 @@ To customise the workspace:
 
 If you want to use the default configuration (my config):
 
+
+- I recommend using [Rio](https://rioterm.com/) as your terminal emulator - it's very cross-platform and easy to configure. You can see my Rio config in `dotfiles/rio/`.
+- Remember to find and apply a theme to your terminal emulator for maximum eye-comfort :)
 - You'll be launched automatically into a `tmux` session when you log in. This behaviour is configured in `dotfiles/.bashrc-auto-tmux`, which is renamed to `.bashrc` and sourced by `.bash_profile` when you log in to the container. To use `tmux`:
   1. Prefix is `Ctrl + A`
   2. `Prefix + -` for vertical split `Prefix + |` for horizontal. 
@@ -70,9 +73,7 @@ If you want to use the default configuration (my config):
   5. `Leader + fs` to search context for strings
   6. `Leader + ff` to search context for files.
   7. Otherwise, stock navigation
-- I recommend using [Rio](https://rioterm.com/) as your terminal emulator - it's very cross-platform and easy to configure. You can see my Rio config in `dotfiles/rio/`.
 - For `nvim` and `ohmyposh` (my shell prompt fancy-ifier) to render properly you'll need to configure your terminal emulator to use an font that has been patched with many nerdy icons - I recommend looking through through nerd-fonts to find one you like. I like `JetbrainsMono`.
-- Remember to find and apply a theme to your terminal emulator for maximum eye-comfort :)
 - I have no alias other than the one I use to connect to the workspace which is `workspace` - avoid using this from within the workspace as it will nest.
 
 ## Notes
